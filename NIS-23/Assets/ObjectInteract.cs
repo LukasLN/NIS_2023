@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class ObjectInteract : MonoBehaviour, InterfaceInteract 
 {
-    
-}
-{
     public void Interact() 
     {
         //interact
