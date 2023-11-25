@@ -34,7 +34,7 @@ public class PlayerInteract : MonoBehaviour
 
             foreach (Collider collider in colliderArray)
             {
-                if(collider.TryGetComponent(out InterfaceInteract interactableObject)){
+                if(collider.TryGetComponent(out IInteractable interactableObject)){
                     interactableObjectsList.Add(interactableObject);
                 }
             }
