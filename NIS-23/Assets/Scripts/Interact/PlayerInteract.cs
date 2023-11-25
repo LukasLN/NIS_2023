@@ -18,7 +18,8 @@ public class PlayerInteract : MonoBehaviour
             {
                 //Debug.Log(collider.gameObject.name);
                 //do stuff
-                if(collider.TryGetComponent(out IInteractable interactable)){
+                if (collider.TryGetComponent(out IInteractable interactable))
+                {
                     interactable.Interact();
                 }
 
@@ -26,17 +27,37 @@ public class PlayerInteract : MonoBehaviour
         }
 
     }
-    
-    public IInteractable GetInteractableObject(){
+
+    public IInteractable GetInteractableObject()
+    {
         List<IInteractable> interactableObjectsList = new List<IInteractable>();
 
-         Collider[] colliderArray = Physics.OverlapSphere(transform.position, detectionRange);
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position, detectionRange);
 
-            foreach (Collider collider in colliderArray)
+        foreach (Collider collider in colliderArray)
+        {
+            if (collider.TryGetComponent(out IInteractable interactableObject))
             {
-                if(collider.TryGetComponent(out IInteractable interactableObject)){
-                    interactableObjectsList.Add(interactableObject);
+                interactableObjectsList.Add(interactableObject);
+            }
+        }
+
+        IInteractable closestInteractable = null;
+        foreach (IInteractable interactable in interactableObjectsList)
+        {
+            if (closestInteractable == null)
+            {
+                closestInteractable = interactable;
+            }
+            else
+            {           // means if its closer
+                if (Vector3.Distance(transform.position, interactable.transform.position) <
+                Vector3.Distance(transform.position, closestInteractable.transform.position))
+                {
+                    closestInteractable = interactable;
                 }
             }
+        }
+        return closestInteractable;
     }
 }
