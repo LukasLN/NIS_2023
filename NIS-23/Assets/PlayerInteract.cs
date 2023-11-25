@@ -15,11 +15,19 @@ public class PlayerInteract : MonoBehaviour
             Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
             foreach (Collider collider in colliderArray)
             {
-                UnityEngine.Debug.Log(collider.gameObject.name);
+                //Debug.Log(collider.gameObject.name);
                 //do stuff
+                if(collider.TryGetComponent(out interfaceInteract interactable)){
+                    interactable.Interact();
+                }
 
             }
         }
+
+    }
+    
+    public ObjectInteract GetInteractableObject(){
+        List<ObjectInteract> interactableObjectsList = new List<ObjectInteract>();
 
     }
 }
