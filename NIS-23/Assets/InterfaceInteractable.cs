@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface InterfaceInteractable : MonoBehaviour
+public interface IInteractable : MonoBehaviour
 {
     void Interact()
-    
+
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] float interactRange = 2f;
+    [SerializeField] float detectionRange = 4f;
 
     void Update()
     {
@@ -17,7 +18,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 //Debug.Log(collider.gameObject.name);
                 //do stuff
-                if(collider.TryGetComponent(out interfaceInteract interactable)){
+                if(collider.TryGetComponent(out IInteractable interactable)){
                     interactable.Interact();
                 }
 
@@ -26,8 +27,16 @@ public class PlayerInteract : MonoBehaviour
 
     }
     
-    public ObjectInteract GetInteractableObject(){
-        List<ObjectInteract> interactableObjectsList = new List<ObjectInteract>();
+    public IInteractable GetInteractableObject(){
+        List<IInteractable> interactableObjectsList = new List<IInteractable>();
 
+         Collider[] colliderArray = Physics.OverlapSphere(transform.position, detectionRange);
+
+            foreach (Collider collider in colliderArray)
+            {
+                if(collider.TryGetComponent(out InterfaceInteract interactableObject)){
+                    interactableObjectsList.Add(interactableObject);
+                }
+            }
     }
 }
