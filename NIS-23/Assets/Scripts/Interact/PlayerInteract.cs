@@ -51,8 +51,8 @@ public class PlayerInteract : MonoBehaviour
             }
             else
             {           // means if its closer
-                if (Vector3.Distance(transform.position, interactable.GetTransform().position) <
-                Vector3.Distance(transform.position, closestInteractable.GetTransform().position))
+                if (Vector3.Distance(transform.position, interactable.transform.position) <
+                Vector3.Distance(transform.position, closestInteractable.transform.position))
                 {
                     closestInteractable = interactable;
                 }
