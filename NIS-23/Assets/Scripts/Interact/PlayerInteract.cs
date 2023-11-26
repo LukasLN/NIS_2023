@@ -32,7 +32,7 @@ public class PlayerInteract : MonoBehaviour
                 if (collider.TryGetComponent(out IInteractable interactable))
                 {
                     interactable.Interact();
-                    Debug.Log("position " + interactable.transform.position);
+                    Debug.Log("item " + interactable);
                     //Vector3 tempPos = interactable.transform.position;
                     InteractablePos = interactable.transform;
                     //InteractablePos.position = (interactable as MonoBehaviour).transform.position;
@@ -56,6 +56,7 @@ public class PlayerInteract : MonoBehaviour
             if (WaitTimeHasPassed == false)
             {
                 Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, InteractablePos.rotation, 95 * Time.deltaTime);
+                Debug.Log(InteractablePos.position);
             }
             else
             {
