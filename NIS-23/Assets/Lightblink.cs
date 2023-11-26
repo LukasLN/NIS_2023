@@ -27,7 +27,7 @@ public class Lightblink : MonoBehaviour
             Light.SetActive(false);
             MATRenderer.material = NoLightMAT;
             StartCoroutine(Blink());
-            startTime += Random.Range(5f, 7f);
+            startTime += Random.Range(3f, 5f);
             currentTime = startTime;
         }
         currentTime -= Time.deltaTime;
