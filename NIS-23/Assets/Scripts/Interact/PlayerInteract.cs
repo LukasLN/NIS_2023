@@ -17,7 +17,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void Start()
     {
-        InteractablePos.position = new Vector3(0, 0, 0);
+        InteractablePos = this.transform;
     }
 
     void Update()
@@ -34,9 +34,8 @@ public class PlayerInteract : MonoBehaviour
                     interactable.Interact();
                     Debug.Log("position " + interactable.transform.position);
                     //Vector3 tempPos = interactable.transform.position;
-                    InteractablePos.position = interactable.transform.position;
+                    InteractablePos = interactable.transform;
                     //InteractablePos.position = (interactable as MonoBehaviour).transform.position;
-                    InteractablePos.position = new Vector3(1, 1, 1);
                     Debug.Log("position " + InteractablePos.position);
 
                     if (hasClickedRecently == false)
@@ -106,7 +105,7 @@ public class PlayerInteract : MonoBehaviour
         yield return new WaitForSeconds(2);
         //Cam.transform.rotation = lookDirectionHolder.rotation;
         WaitTimeHasPassed = true;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         this.GetComponent<FPSController>().canMove = true;
         hasClickedRecently = false;
         WaitTimeHasPassed = false;
