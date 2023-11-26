@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics;
+//using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] float interactRange = 2f;
     [SerializeField] float detectionRange = 4f;
+
+    bool hasClickedRecently = false;
+    bool WaitTimeHasPassed = false;
+    Transform InteractablePos;
+    [SerializeField] Transform Cam;
+    Transform lookDirectionHolder;
+
+    private void Start()
+    {
+        InteractablePos = this.transform;
+    }
 
     void Update()
     {
@@ -21,14 +32,40 @@ public class PlayerInteract : MonoBehaviour
                 if (collider.TryGetComponent(out IInteractable interactable))
                 {
                     interactable.Interact();
+                    Debug.Log("position " + interactable.transform.position);
+                    //Vector3 tempPos = interactable.transform.position;
+                    InteractablePos = interactable.transform;
+                    //InteractablePos.position = (interactable as MonoBehaviour).transform.position;
+                    Debug.Log("position " + InteractablePos.position);
+
+                    if (hasClickedRecently == false)
+                    {
+                        this.GetComponent<FPSController>().canMove = false;
+                        StartCoroutine(HoldPlayerMovement());
+                        lookDirectionHolder = this.transform;
+                        hasClickedRecently = true;
+                    }
+
                 }
 
             }
         }
+        if (hasClickedRecently == true)
+        {
+            //this.GetComponent<FPSController>().enabled = !enabled;
+            if (WaitTimeHasPassed == false)
+            {
+                Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, InteractablePos.rotation, 95 * Time.deltaTime);
+            }
+            else
+            {
+                Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, lookDirectionHolder.rotation, 95 * Time.deltaTime);
+            }           
 
+        }
     }
 
-    public IInteractable GetInteractableObject()
+    /*public IInteractable GetInteractableObject()
     {
         List<IInteractable> interactableObjectsList = new List<IInteractable>();
 
@@ -55,9 +92,22 @@ public class PlayerInteract : MonoBehaviour
                 Vector3.Distance(transform.position, closestInteractable.transform.position))
                 {
                     closestInteractable = interactable;
+                    terminalToMainHall.position = closestInteractable.transform.position;
+                    Debug.Log("position " + closestInteractable.transform.position);
                 }
             }
         }
         return closestInteractable;
+    }*/
+
+    IEnumerator HoldPlayerMovement()
+    {
+        yield return new WaitForSeconds(2);
+        //Cam.transform.rotation = lookDirectionHolder.rotation;
+        WaitTimeHasPassed = true;
+        yield return new WaitForSeconds(1);
+        this.GetComponent<FPSController>().canMove = true;
+        hasClickedRecently = false;
+        WaitTimeHasPassed = false;
     }
 }
