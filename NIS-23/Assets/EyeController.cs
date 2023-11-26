@@ -11,7 +11,7 @@ public class EyeController : MonoBehaviour
     public float eyeWidth = 1.3f;
     private readonly int _eyeWidth_ID = Shader.PropertyToID("_EyeWidth");
     private readonly int _eyeHeight_ID = Shader.PropertyToID("_EyeHeight");
-    private bool isClosed = false;
+    public bool isClosed = false;
 
     void Start()
     {
