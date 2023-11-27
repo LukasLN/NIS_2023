@@ -82,7 +82,7 @@ public class BlinkController : MonoBehaviour
         {
             
             i++;
-            Debug.Log(i);
+            //Debug.Log(i);
            /* if (closestEcho == null)
             {
                 closestEcho = echo;
@@ -94,6 +94,7 @@ public class BlinkController : MonoBehaviour
 
             }
         }
+        Debug.Log(closestEcho);
     }
 
     void FadeAudList(List<AudioSource> list, float volumeLevel)
