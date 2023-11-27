@@ -12,12 +12,16 @@ public class BlinkController : MonoBehaviour
     [SerializeField] float fadeDuration = 1.5f;
     [SerializeField] float echoVol;
     [SerializeField] float volumeScalingFactor = 0.1f;
+    int currentClosest = 0;
+    bool hasImplant;
+    
     void Start()
     {
         if (closestEcho == null)
         {
             closestEcho = echoes[0];
         }
+        
     }
     // Update is called once per frame
     void Update()
@@ -43,7 +47,7 @@ public class BlinkController : MonoBehaviour
         Debug.Log("dist:" + Vector3.Distance(transform.position, closestEcho.transform.position));
         Debug.Log("volume:" + echoVol);
 
-        if (Input.GetMouseButtonDown(1) && !image.GetComponent<EyeController>().isClosed)
+        if (Input.GetMouseButtonDown(1) && !image.GetComponent<EyeController>().isClosed && hasImplant)
         {
 
 
@@ -56,10 +60,11 @@ public class BlinkController : MonoBehaviour
             StartCoroutine(FadeAudioSource.StartFade(closestEcho, fadeDuration, echoVol));
             FadeAudList(ambience, 0f);
             closestEcho.Play();
+            Debug.Log("closest:"+closestEcho);
 
         }
 
-        else if (Input.GetMouseButtonUp(1) && image.GetComponent<EyeController>().isClosed)
+        else if (Input.GetMouseButtonUp(1) && image.GetComponent<EyeController>().isClosed && hasImplant)
         {
             //open eyes animation()
             image.GetComponent<EyeController>().EyeAnim_Open();
@@ -76,25 +81,31 @@ public class BlinkController : MonoBehaviour
 
     }
     void FindClosestEcho()
-    {
+    {   /* //Original method of updating closestEcho
         int i=0;
         foreach (AudioSource echo in echoes)
         {
             
             i++;
             //Debug.Log(i);
-           /* if (closestEcho == null)
+           if (closestEcho == null)
             {
                 closestEcho = echo;
-            }
-            else */if (Vector3.Distance(transform.position, echo.transform.position) <
+            }   //dist checker
+            else if (Vector3.Distance(transform.position, echo.transform.position) <
                 Vector3.Distance(transform.position, closestEcho.transform.position))
             {
                 closestEcho = echo;
 
             }
         }
-        Debug.Log(closestEcho);
+        */
+        
+        
+        //BS way, cuz dist checker above aint workin
+        if(){
+            //            
+        }
     }
 
     void FadeAudList(List<AudioSource> list, float volumeLevel)
@@ -122,5 +133,51 @@ public class BlinkController : MonoBehaviour
         StartCoroutine(FadeAudioSource.StartFade(ambience[2], fadeDuration, 1f));
 
     }
+
+        //Disable Volume
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.tag=="EchoTrigger" && image.GetComponent<EyeController>().isClosed){
+            Debug.Log("OnTrigger called");
+            if(other.gameObject.transform.GetChild(0)!=false){
+
+                other.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            }
+
+        }
+
+    }
+
+    /*private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag=="EchoTrigger"  && currentClosest<2){
+            Debug.Log("OnTrigger called");
+            if(closestEcho.transform.GetChild(0)!=false){
+                currentClosest+=1;
+                closestEcho=echoes[currentClosest];
+
+            }
+
+        }
+        if(other.gameObject.tag=="ET1"  && currentClosest<2){
+            Debug.Log("OnTrigger called");
+            if(closestEcho.transform.GetChild(0)!=false){
+                currentClosest+=1;
+                closestEcho=echoes[currentClosest];
+
+            }
+
+        }
+        if(other.gameObject.tag=="ET2" && currentClosest<2){
+            Debug.Log("OnTrigger called");
+            if(closestEcho.transform.GetChild(0)!=false){
+                currentClosest+=1;
+                closestEcho=echoes[currentClosest];
+
+            }
+
+        }
+
+    }*/
 
 }
