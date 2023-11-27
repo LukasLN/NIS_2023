@@ -14,7 +14,7 @@ public class BlinkController : MonoBehaviour
     [SerializeField] float volumeScalingFactor = 0.1f;
     int currentClosest = 0;
     bool hasImplant;
-    
+    bool isPLayingVoiceOver;
     void Start()
     {
         if (closestEcho == null)
@@ -47,7 +47,7 @@ public class BlinkController : MonoBehaviour
         Debug.Log("dist:" + Vector3.Distance(transform.position, closestEcho.transform.position));
         Debug.Log("volume:" + echoVol);
 
-        if (Input.GetMouseButtonDown(1) && !image.GetComponent<EyeController>().isClosed /*&& hasImplant*/)
+        if (Input.GetMouseButtonDown(1) && !image.GetComponent<EyeController>().isClosed /*&& hasImplant && notPlayingVoiceOver*/)
         {
 
 
@@ -64,7 +64,7 @@ public class BlinkController : MonoBehaviour
 
         }
 
-        else if (Input.GetMouseButtonUp(1) && image.GetComponent<EyeController>().isClosed /*&& hasImplant*/)
+        else if (Input.GetMouseButtonUp(1) && image.GetComponent<EyeController>().isClosed /*&& hasImplant && notPlayingVoiceOver*/)
         {
             //open eyes animation()
             image.GetComponent<EyeController>().EyeAnim_Open();
@@ -119,6 +119,16 @@ public class BlinkController : MonoBehaviour
 
     void playVoiceOver(int x){
         //play audiosource associated with the event, but based on echo[number]
+        while (isPLayingVoiceOver){
+            image.GetComponent<EyeController>().EyeAnim_Close();
+            image.GetComponent<EyeController>().isClosed = true;
+            
+            //maybe use the fadeinsystem for playing voiceovers:
+            //StartCoroutine(FadeAudioSource.StartFade("some list of audiosources"[x], voiceOverduration, echoVol));
+        }
+        //when voiceOverduration is over:
+        isPLayingVoiceOver = false;
+
     }
     
 
@@ -154,7 +164,9 @@ public class BlinkController : MonoBehaviour
         if(other.gameObject.tag=="EchoTrigger" && image.GetComponent<EyeController>().isClosed){
             Debug.Log("OnTrigger called");
             if(other.gameObject.transform.GetChild(0)!=false){
-
+                //instead of variable 0 insert variable fetchable int from other.
+                isPLayingVoiceOver = true;
+                playVoiceOver(0);
                 other.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
                 NextEcho();
