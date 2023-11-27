@@ -2,21 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door_Storage : MonoBehaviour, IInteractable
+public class Door_Storage : MonoBehaviour
 {
     [SerializeField] GameObject Door;
-    bool HasBeenInteractedWith = false;
-    public void Interact() 
-    {
-        //interact
-        //play stuff or whatever
-        Debug.Log("Object is doing stuff");
-        HasBeenInteractedWith = true;
-        Destroy(this.GetComponent<BoxCollider>());
-    }
+    [SerializeField] GameObject Player;
+
+
     public void Update()
     {
-        if (HasBeenInteractedWith == true)
+        if (Player.GetComponent<FPSController>().hasPickedUpHelmet == true)
         {
             if (Door.transform.localPosition.y >=  -2.5)
             {

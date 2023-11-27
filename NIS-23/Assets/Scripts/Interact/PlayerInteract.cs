@@ -55,12 +55,12 @@ public class PlayerInteract : MonoBehaviour
             //this.GetComponent<FPSController>().enabled = !enabled;
             if (WaitTimeHasPassed == false)
             {
-                Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, InteractablePos.rotation, 95 * Time.deltaTime);
+                Cam.transform.rotation = Quaternion.Slerp(Cam.transform.rotation, InteractablePos.rotation, 2 * Time.deltaTime);
                 Debug.Log(InteractablePos.position);
             }
             else
             {
-                Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, lookDirectionHolder.rotation, 95 * Time.deltaTime);
+                Cam.transform.rotation = Quaternion.Slerp(Cam.transform.rotation, lookDirectionHolder.rotation, 2 * Time.deltaTime);
             }           
 
         }
