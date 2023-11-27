@@ -26,7 +26,7 @@ public class BlinkController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {           //set closestEcho to actual closest
-        FindClosestEcho();
+        
 
         //calculates the dist multiplied by our scaling factor
 
@@ -47,7 +47,7 @@ public class BlinkController : MonoBehaviour
         Debug.Log("dist:" + Vector3.Distance(transform.position, closestEcho.transform.position));
         Debug.Log("volume:" + echoVol);
 
-        if (Input.GetMouseButtonDown(1) && !image.GetComponent<EyeController>().isClosed && hasImplant)
+        if (Input.GetMouseButtonDown(1) && !image.GetComponent<EyeController>().isClosed /*&& hasImplant*/)
         {
 
 
@@ -64,7 +64,7 @@ public class BlinkController : MonoBehaviour
 
         }
 
-        else if (Input.GetMouseButtonUp(1) && image.GetComponent<EyeController>().isClosed && hasImplant)
+        else if (Input.GetMouseButtonUp(1) && image.GetComponent<EyeController>().isClosed /*&& hasImplant*/)
         {
             //open eyes animation()
             image.GetComponent<EyeController>().EyeAnim_Open();
@@ -101,12 +101,26 @@ public class BlinkController : MonoBehaviour
         }
         */
         
-        
+    }
         //BS way, cuz dist checker above aint workin
-        if(){
-            //            
+    void NextEcho(){
+        if(closestEcho=echoes[0]) {
+            playVoiceOver(0);
+            closestEcho=echoes[1];
+        }
+        else if(closestEcho=echoes[1]){
+             playVoiceOver(1);
+                closestEcho=echoes[2];
+        }
+        else if(closestEcho=echoes[2]){
+            playVoiceOver(2);
         }
     }
+
+    void playVoiceOver(int x){
+        //play audiosource associated with the event, but based on echo[number]
+    }
+    
 
     void FadeAudList(List<AudioSource> list, float volumeLevel)
     {
@@ -134,7 +148,7 @@ public class BlinkController : MonoBehaviour
 
     }
 
-        //Disable Volume
+        //Disable visual effects when inside volume and closing eyes 
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag=="EchoTrigger" && image.GetComponent<EyeController>().isClosed){
@@ -142,6 +156,8 @@ public class BlinkController : MonoBehaviour
             if(other.gameObject.transform.GetChild(0)!=false){
 
                 other.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+                NextEcho();
             }
 
         }
