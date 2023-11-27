@@ -5,6 +5,9 @@ using UnityEngine;
 public class Door_MainHall : MonoBehaviour, IInteractable
 {
     [SerializeField] GameObject Door;
+    [SerializeField] AudioSource characterSound;
+    [SerializeField] AudioSource DoorSound;
+    [SerializeField] AudioSource KeypadSound;
     bool HasBeenInteractedWith = false;
     public void Interact() 
     {
@@ -12,6 +15,9 @@ public class Door_MainHall : MonoBehaviour, IInteractable
         //play stuff or whatever
         Debug.Log("Object is doing stuff");
         HasBeenInteractedWith = true;
+        //characterSound.Play();
+        KeypadSound.Play();
+        StartCoroutine(waitforCode());
         Destroy(this.GetComponent<BoxCollider>());
     }
     public void Update()
@@ -23,5 +29,11 @@ public class Door_MainHall : MonoBehaviour, IInteractable
                 Door.transform.localPosition -= new Vector3(0, 2 * Time.deltaTime, 0);
             }
         }
+    }
+    
+    IEnumerator waitforCode()
+    {
+        yield return new WaitForSeconds(1.5f);
+        DoorSound.Play();
     }
 }

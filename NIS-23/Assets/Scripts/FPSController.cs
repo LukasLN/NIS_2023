@@ -22,6 +22,11 @@ public class FPSController : MonoBehaviour
     public bool canMove = true;
 
 
+
+    //interact  stuff
+    [SerializeField] AudioSource PlayerAudio;
+    public bool hasPickedUpHelmet = false;
+
     CharacterController characterController;
     void Start()
     {
@@ -75,5 +80,10 @@ public class FPSController : MonoBehaviour
         }
 
         #endregion
+    }
+
+    public void playAudio()
+    {
+        PlayerAudio.Play();
     }
 }
