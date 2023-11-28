@@ -21,6 +21,7 @@ public class PlayVison : MonoBehaviour
     {
         if (image.GetComponent<EyeController>().isClosed == true && isplaying == false && inRange == true)
         {
+            StartCoroutine(FadeAudioSource.StartFade(vission, 1.5f, 1f));
             vission.Play();
             Debug.Log("Vission: Playing");
             StartCoroutine(waitTime());
@@ -28,7 +29,8 @@ public class PlayVison : MonoBehaviour
         }
         if (image.GetComponent<EyeController>().isClosed == false && isplaying == true)
         {
-            vission.Stop();
+            StartCoroutine(FadeAudioSource.StartFade(vission, 1.5f, 0f));
+            //vission.Stop();
             StopCoroutine(waitTime());
             Debug.Log("Vission: Stopped");
             isplaying = false;
@@ -57,7 +59,15 @@ public class PlayVison : MonoBehaviour
         if (iskeyCodeScene == true)
         {
             Player.GetComponent<FPSController>().hasHeardCode = true;
+
         }
+        Player.GetComponent<FPSController>().hasHeardVission = true;
+        this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        Debug.Log("WaitTime Vission: " + Player.GetComponent<FPSController>().hasHeardVission);
         isplaying = false;
+
+
     }
+
+
 }

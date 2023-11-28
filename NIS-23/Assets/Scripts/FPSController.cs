@@ -27,6 +27,7 @@ public class FPSController : MonoBehaviour
     [SerializeField] AudioSource PlayerAudio;
     public bool hasPickedUpHelmet = false;
     public bool hasHeardCode = false;
+    public bool hasHeardVission= false;
 
     CharacterController characterController;
     void Start()
