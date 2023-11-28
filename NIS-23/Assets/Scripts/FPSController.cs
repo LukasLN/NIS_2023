@@ -26,6 +26,7 @@ public class FPSController : MonoBehaviour
     //interact  stuff
     [SerializeField] AudioSource PlayerAudio;
     public bool hasPickedUpHelmet = false;
+    public bool hasHeardCode = false;
 
     CharacterController characterController;
     void Start()
@@ -37,6 +38,14 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("HasHeardCode?: " + hasHeardCode);
+
+
+
+        if (hasPickedUpHelmet==true)
+        {
+            this.transform.GetComponent<BlinkController>().enabled = true;
+        }
 
         #region Handles Movment
         Vector3 forward = transform.TransformDirection(Vector3.forward);

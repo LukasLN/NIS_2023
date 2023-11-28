@@ -103,7 +103,7 @@ public class BlinkController : MonoBehaviour
         
     }
         //BS way, cuz dist checker above aint workin
-    void NextEcho(){
+   /* void NextEcho(){
         if(closestEcho=echoes[0]) {
             PlayVoiceOver(0);
             closestEcho=echoes[1];
@@ -111,11 +111,12 @@ public class BlinkController : MonoBehaviour
         else if(closestEcho=echoes[1]){
              PlayVoiceOver(1);
                 closestEcho=echoes[2];
+            Debug.Log("WhyIsItNotWorking?");
         }
         else if(closestEcho=echoes[2]){
             PlayVoiceOver(2);
         }
-    }
+    }*/
 
     void PlayVoiceOver(int x){
         //play audiosource associated with the event, but based on echo[number]
@@ -167,13 +168,29 @@ public class BlinkController : MonoBehaviour
                 isPLayingVoiceOver = true;
 
                 other.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-
-                NextEcho();
+                /*NextEcho();*/
             }
 
         }
 
     }
+     
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "ET1")
+        {
+            closestEcho = echoes[1];
+        }
+        if (other.gameObject.tag == "ET2")
+        {
+            closestEcho = echoes[2];
+        }
+
+    }
+
+
+
+
 
     /*private void OnTriggerEnter(Collider other)
     {
