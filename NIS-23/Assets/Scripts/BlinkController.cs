@@ -44,8 +44,8 @@ public class BlinkController : MonoBehaviour
         echoVol = normDist;
         */
 
-        Debug.Log("dist:" + Vector3.Distance(transform.position, closestEcho.transform.position));
-        Debug.Log("volume:" + echoVol);
+        //Debug.Log("dist:" + Vector3.Distance(transform.position, closestEcho.transform.position));
+        //Debug.Log("volume:" + echoVol);
 
         if (Input.GetMouseButtonDown(1) && !image.GetComponent<EyeController>().isClosed /*&& hasImplant && !isPlayingVoiceOver*/)
         {
@@ -57,10 +57,12 @@ public class BlinkController : MonoBehaviour
             //Debug.Log(isClosed);
 
             //Start coroutines fading in implant ecchoes, while fading out all other noices
+            if(!isPLayingVoiceOver){
             StartCoroutine(FadeAudioSource.StartFade(closestEcho, fadeDuration, echoVol));
             FadeAudList(ambience, 0f);
             closestEcho.Play();
-            Debug.Log("closest:"+closestEcho);
+            //Debug.Log("closest:"+closestEcho);
+            }
 
         }
 
